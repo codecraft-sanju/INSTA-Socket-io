@@ -14,6 +14,7 @@ import followRoute from './routes/followRoutes.js';
 import CommentRoute from './routes/commentRoutes.js';
 import messageRoutes from './routes/messageRoutes.js';
 import notificationRoutes from './routes/notificationRoutes.js';
+import path from "path";
 
 import { createNotification } from './utils/createNotification.js';
 
@@ -93,6 +94,13 @@ io.on('connection', (socket) => {
     console.log('User disconnected:', socket.id);
   });
 });
+
+const __dirname = path.resolve();
+app.use(express.static(path.join(__dirname, "/frontend/dist")))
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"))
+})
+
 
 
 server.listen(PORT, () => {
